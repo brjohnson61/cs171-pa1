@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.*;
+import java.util.Scanner;
 
 class MovieServer{
 
@@ -14,15 +15,29 @@ class MovieServer{
                 Socket sock = serverSocket.accept();
                 InputStream is = sock.getInputStream();
                 ObjectInputStream ois = new ObjectInputStream(is);
-                Request request = (Request)ois.readObject();
-                if (request != null ){
+                try {
+                    Request request = (Request)ois.readObject();
+                    if (request != null ){
 
-                    if( request.getRequesType() == "movie"){
-                        //add it to queue
-                    }else {
-                        //send to play server
+                        if( request.getRequestType().equals("movie")){
+                            //add it to queue
+                        }else {
+                            if(request.getHasRedirected()){
+                                String origIP = request.getOriginalIP();
+                                Integer origPort = new Integer(request.getOriginalPort());
+
+                                SendRequestToPlayServer(origIP, origPort, request);
+                            }
+                        
+                             //send to play server
+                        }
+
                     }
+                }catch (ClassNotFoundException cnfe){
+                    cnfe.printStackTrace();
                 }
+                
+               
 
                 is.close();
                 sock.close();
@@ -30,30 +45,38 @@ class MovieServer{
                 
                 
             }
-        } catch (IOExecption ex)
+        } catch (IOException ex){
             ex.printStackTrace();
         }
     }
 
     public void SendRequestToPlayServer(String IPAddress, int port, Request request){
-        Socket s = new Socket(IPAddress, port);
-        OutputStream os = s.getOuputStream();
-        ObjectOutputStream oos = new ObjectOutputStream(os);
-        oos.writeObject(request);
-        oos.close();
-        os.close();
-        s.close();
+        try {
+             Socket s = new Socket(IPAddress, port);
+            OutputStream os = s.getOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(os);
+            oos.writeObject(request);
+            oos.close();
+            os.close();
+            s.close();
+       
+            
+        }catch (IOException ex){
+            ex.printStackTrace();
+
+        }
+        
 
     }
 
 
-    public setupMovieServer(){
+    public void setupMovieServer(){
         Scanner input = new Scanner(System.in);
         try {
             InetAddress address = InetAddress.getLocalHost();
             String getIPString = address.getHostAddress();
             System.out.println(getIPString);
-        }catch(UnkownHostExeption ex){
+        }catch(UnknownHostException ex){
             ex.printStackTrace();
 
         }
@@ -62,7 +85,7 @@ class MovieServer{
 
 
         System.out.println("Enter Play server port number");
-        PlaySeverPort = input.nextLine();
+        PlaySeverPort = new Integer(input.nextLine());
 
        ListenForRequest();
 

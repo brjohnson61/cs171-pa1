@@ -1,13 +1,15 @@
+import java.io.*;
+import java.net.*;
 
 
-class Request implements Serializable{
+class Request implements Serializable {
     private String requestType;
-    private int numTickets; 
+    private Integer numTickets; 
     private String originIP;
-    private int originPort;
-    private bool hasRedirected;
+    private Integer originPort;
+    private Boolean hasRedirected;
      
-    public Request(String type, int num){
+    public Request(String type, Integer num){
         this.numTickets = num;
         this.requestType = type;
     }
@@ -17,39 +19,39 @@ class Request implements Serializable{
     }
 
     public void setRequestType(String type){
-        this.requestType = type
+        this.requestType = type;
     }
     
-    public int getNumTickets(){
+    public Integer getNumTickets(){
         return numTickets;
     }
 
-    public void setNumTickets(int num){
-        this.numTickets = num
+    public void setNumTickets(Integer num){
+        this.numTickets = num;
     }
 
-    public String getOriginPort(){
+    public Integer getOriginalPort(){
         return originPort;
     }
 
-    public void setOriginPort(int originPort){
-        this.originPort = originPort
+    public void setOriginalPort(Integer originPort){
+        this.originPort = originPort;
     }
 
-    public String getOriginIP(){
+    public String getOriginalIP(){
         return originIP;
     }
 
-    public void setOriginIP(String originIP){
+    public void setOriginalIP(String originIP){
         this.originIP = originIP;
     }
 
-    public bool getHasRedirected(){
+    public Boolean getHasRedirected(){
         return hasRedirected;
     }
 
-    public void setHasRedirected(bool hasRedirected){
-        this.hasRedirected = hasRedirected
+    public void setHasRedirected(Boolean hasRedirected){
+        this.hasRedirected = hasRedirected;
     }
 
 
