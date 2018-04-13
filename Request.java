@@ -10,9 +10,13 @@ class Request implements Serializable {
     private Boolean hasRedirected;
     private Boolean sucessfullyProcessed;
      
-    public Request(String type, Integer num){
+    public Request(Boolean type, Integer num){
         this.numTickets = num;
-        this.requestType = type;
+        if (type){
+            this.requestType = "movie";
+        }else{
+            this.requestType = "play";
+        }
     }
     
     public String getRequestType(){

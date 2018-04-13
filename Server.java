@@ -2,22 +2,35 @@ import java.io.*;
 import java.net.*;
 import java.util.Scanner;
 
-class MovieServer{
+class Server{
 
-    private String playServerIP;
-    private Integer playSeverPort;
-    private int numMoviesLeft = 50;
-    private int PORT = 4242;
+    private String opposingServerIP;
+    private Integer opposingServerPort;
+    private String type;
+    private int ticketsLeft = 50;
+    private int PORT;
     private ServerSocket serverSocket;
     private Socket sock;
+
     
+    public void Server(Boolean type){
+        if (type){
+            this.type = "movie";
+            this.PORT = 4243;
+        }else{
+            this.type = "play";
+            this.PORT = 4242;
+        }
+    }
+
+
     ProcessRequest processRequest = new ProcessRequest();
 
-    public synchronized Boolean buyMovies(int num){
-        if (numMoviesLeft <= 0){
+    public synchronized Boolean buyTickets(int num){
+        if (ticketsLeft <= 0){
             return false;
         }else{
-            int temp = numMoviesLeft - num;
+            int temp = ticketsLeft - num;
             if (temp < 0){
                 return false;
             } else{
@@ -50,9 +63,9 @@ class MovieServer{
         }
     }
 
-    public void SendRequestToPlayServer(String IPAddress, int port, Request request){
+    public void SendRequestTo(String ipAddress, int port, Request request){
         try {
-            Socket s = new Socket(IPAddress, port);
+            Socket s = new Socket(ipAddress, port);
             OutputStream os = s.getOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(os);
             oos.writeObject(request);
@@ -68,9 +81,6 @@ class MovieServer{
         
 
     }
-
-
-    //public void setupMovieServer()
     
     public void setupMovieServer(){
         Scanner input = new Scanner(System.in);
@@ -99,11 +109,11 @@ class MovieServer{
         System.out.println(myIp);
 
         System.out.println("Enter IP address of Play server");
-        playServerIP = input.nextLine();
+        opposingServerIP = input.nextLine();
 
 
         System.out.println("Enter Play server port number");
-        playSeverPort = new Integer(input.nextLine());
+        opposingServerPort = new Integer(input.nextLine());
 
        ListenForRequest();
 
@@ -123,24 +133,24 @@ class MovieServer{
                     Request request = (Request)ois.readObject();
                     if (request != null ){
 
-                        if( request.getRequestType().equals("movie")){
-                             Boolean sucesssfull = buyMovies(request.getNumTickets());
+                        if( request.getRequestType().equals(type)){
+                             Boolean sucesssfull = buyTickets(request.getNumTickets());
                              request.setSucessfullyProcessed(sucesssfull);
 
                             if (request.getHasRedirected()){
-                                //send to play server
+                                SendRequestTo(opposingServerIP,opposingServerPort,request);
                             }else{
-                                //send to origin 
+                                SendRequestTo(request.getOriginalIP(), request.getOriginalPort(), request);
                             }
 
                         }else {
                             if(request.getHasRedirected()){
-                                //send to origin
+                                SendRequestTo(request.getOriginalIP(), request.getOriginalPort(), request);
+                            }else{
+                                request.setHasRedirected(true);
+                                SendRequestTo(opposingServerIP, opposingServerPort, request);
                             }
-                            request.setHasRedirected(true);
-                            String origIP = request.getOriginalIP();
-                            Integer origPort = new Integer(request.getOriginalPort());
-                            SendRequestToPlayServer(origIP, origPort, request);
+                            
                         }
 
                     }
