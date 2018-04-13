@@ -1,8 +1,8 @@
 import java.io.*;
 import java.net.*;
 
-class Server {
-    public void go() {
+class Server{
+    public void ListenForClients() {
         try {
             ServerSocket serverSocket = new ServerSocket(4242);
             
@@ -16,9 +16,18 @@ class Server {
                 writer.close();
                 System.out.println(helloWorld)
             }
-        } catch (IOExecption ex){
-            ex.printStackTrace();
+        } catch (IOExecption ex)
+        
         }
+    }
+
+    public void ConnectToServer(String IPAddress, int port){
+        Socket s = new Socket(IPAddress, port);
+        InputStreamReader streamReader = new InputStreamReader(s.getInputStream());
+        BufferedReader reader = new BufferedReader(streamReader);
+
+        String 
+
     }
 
 
@@ -26,5 +35,7 @@ class Server {
 
         Server server = new Server();
         server.go();
+        //request ip adress and port
+
     }
 }
