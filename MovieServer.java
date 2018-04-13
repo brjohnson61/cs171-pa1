@@ -4,8 +4,9 @@ import java.util.Scanner;
 
 class MovieServer{
 
-    private String PlayServerIP;
-    private Integer PlaySeverPort;
+    private String playServerIP;
+    private Integer playSeverPort;
+    private BlockingQueue queue;
 
     public void ListenForRequest() {
         try {
