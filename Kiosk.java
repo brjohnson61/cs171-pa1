@@ -32,9 +32,16 @@ class Kiosk{
 
         System.out.println("Enter Play server port number: ");
         playServerPort = input.nextInt();
-
-        movieSocket = new Socket(movieServerIP, movieServerPort);
-        playSocket = new Socket(playServerIP, playServerPort);
+        try {
+            movieSocket = new Socket(movieServerIP, movieServerPort);
+            playSocket = new Socket(playServerIP, playServerPort);
+        }catch (UnknownHostException err){
+            err.printStackTrace();
+        }catch (IOException err){
+            err.printStackTrace();
+        }
+        
+       
 
         start();
     }

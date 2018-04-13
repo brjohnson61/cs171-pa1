@@ -6,54 +6,53 @@ class MovieServer{
 
     private String playServerIP;
     private Integer playSeverPort;
-    private BlockingQueue queue;
+    private int numMoviesLeft = 50;
+    private int PORT = 4242;
+    private ServerSocket serverSocket;
+    private Socket sock;
+    
+    ProcessRequest processRequest = new ProcessRequest();
+
+    public synchronized Boolean buyMovies(int num){
+        if (numMoviesLeft <= 0){
+            return false;
+        }else{
+            int temp = numMoviesLeft - num;
+            if (temp < 0){
+                return false;
+            } else{
+                return true;
+            }
+        }
+    }
+
 
     public void ListenForRequest() {
+
         try {
-            ServerSocket serverSocket = new ServerSocket(4242);
-            
-            while (true){
-                Socket sock = serverSocket.accept();
-                InputStream is = sock.getInputStream();
-                ObjectInputStream ois = new ObjectInputStream(is);
-                try {
-                    Request request = (Request)ois.readObject();
-                    if (request != null ){
-
-                        if( request.getRequestType().equals("movie")){
-                            //add it to queue
-                        }else {
-                            if(request.getHasRedirected()){
-                                String origIP = request.getOriginalIP();
-                                Integer origPort = new Integer(request.getOriginalPort());
-
-                                SendRequestToPlayServer(origIP, origPort, request);
-                            }
-                        
-                             //send to play server
-                        }
-
-                    }
-                }catch (ClassNotFoundException cnfe){
-                    cnfe.printStackTrace();
-                }
-                
-               
-
-                is.close();
-                sock.close();
-                serverSocket.close();
-                
-                
-            }
+            serverSocket = new ServerSocket(PORT);
         } catch (IOException ex){
             ex.printStackTrace();
+        }
+
+        while (true){
+
+            try {
+                sock = serverSocket.accept();
+                serverSocket.close();
+            }catch (IOException err){
+                err.printStackTrace();
+            }
+            processRequest.sock = this.sock;
+            Thread newClient = new Thread(processRequest);
+
+                
         }
     }
 
     public void SendRequestToPlayServer(String IPAddress, int port, Request request){
         try {
-             Socket s = new Socket(IPAddress, port);
+            Socket s = new Socket(IPAddress, port);
             OutputStream os = s.getOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(os);
             oos.writeObject(request);
@@ -71,6 +70,8 @@ class MovieServer{
     }
 
 
+    //public void setupMovieServer()
+    
     public void setupMovieServer(){
         Scanner input = new Scanner(System.in);
         try {
@@ -82,15 +83,62 @@ class MovieServer{
 
         }
         System.out.println("Enter IP address of Play server");
-        PlayServerIP = input.nextLine();
+        playServerIP = input.nextLine();
 
 
         System.out.println("Enter Play server port number");
-        PlaySeverPort = new Integer(input.nextLine());
+        playSeverPort = new Integer(input.nextLine());
 
        ListenForRequest();
 
         //request ip adress and port
 
+    }
+
+
+    class ProcessRequest implements Runnable{
+        private Socket sock;
+
+        public void run(){
+            try {
+                InputStream is = this.sock.getInputStream();
+                ObjectInputStream ois = new ObjectInputStream(is);
+                try {
+                    Request request = (Request)ois.readObject();
+                    if (request != null ){
+
+                        if( request.getRequestType().equals("movie")){
+                             Boolean sucesssfull = buyMovies(request.getNumTickets());
+                             request.setSucessfullyProcessed(sucesssfull);
+
+                            if (request.getHasRedirected()){
+                                //send to play server
+                            }else{
+                                //send to origin 
+                            }
+
+                        }else {
+                            if(request.getHasRedirected()){
+                                //send to origin
+                            }
+                            request.setHasRedirected(true);
+                            String origIP = request.getOriginalIP();
+                            Integer origPort = new Integer(request.getOriginalPort());
+                            SendRequestToPlayServer(origIP, origPort, request);
+                        }
+
+                    }
+                }catch (ClassNotFoundException cnfe){
+                    cnfe.printStackTrace();
+                }
+                is.close();
+                sock.close();
+            }catch (IOException err){
+                err.printStackTrace();
+            }
+            
+                
+                
+        }
     }
 }

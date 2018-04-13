@@ -8,6 +8,7 @@ class Request implements Serializable {
     private String originIP;
     private Integer originPort;
     private Boolean hasRedirected;
+    private Boolean sucessfullyProcessed;
      
     public Request(String type, Integer num){
         this.numTickets = num;
@@ -53,6 +54,15 @@ class Request implements Serializable {
     public void setHasRedirected(Boolean hasRedirected){
         this.hasRedirected = hasRedirected;
     }
+
+    public void setSucessfullyProcessed(Boolean setter){
+        sucessfullyProcessed = setter;
+    }
+
+    public Boolean getSucessfullyProcessed(){
+        return sucessfullyProcessed;
+    }
+
 
 
 }
