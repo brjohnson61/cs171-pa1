@@ -11,6 +11,8 @@ class Main{
         String input = InputScanner.nextLine();
         if(input.equals("K") || input.equals("k")){
             System.out.println("Set up kiosk");
+            Kiosk kiosk = new Kiosk();
+            kiosk.setupKiosk();
         }
         else if(input.equals("S") || input.equals("s")){
             System.out.println("Enter M to set up a movie server. Enter P to set up a play server");
