@@ -6,7 +6,7 @@ class MovieServer{
     private String PlayServerIP;
     private Integer PlaySeverPort;
 
-    public void ListenRequest() {
+    public void ListenForRequest() {
         try {
             ServerSocket serverSocket = new ServerSocket(4242);
             
@@ -23,6 +23,11 @@ class MovieServer{
                         //send to play server
                     }
                 }
+
+                is.close();
+                sock.close();
+                serverSocket.close();
+                
                 
             }
         } catch (IOExecption ex)
@@ -32,16 +37,18 @@ class MovieServer{
 
     public void SendRequestToPlayServer(String IPAddress, int port, Request request){
         Socket s = new Socket(IPAddress, port);
-        InputStreamReader streamReader = new InputStreamReader(s.getInputStream());
-        BufferedReader reader = new BufferedReader(streamReader);
+        OutputStream os = s.getOuputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(os);
+        oos.writeObject(request);
+        oos.close();
+        os.close();
+        s.close();
 
     }
 
 
-    public static void main(String[] args){
-
-        MovieServer movieServer = new MovieServer();
-
+    public setupMovieServer(){
+        Scanner input = new Scanner(System.in);
         try {
             InetAddress address = InetAddress.getLocalHost();
             String getIPString = address.getHostAddress();
@@ -51,19 +58,13 @@ class MovieServer{
 
         }
         System.out.println("Enter IP address of Play server");
-        Scanner ipAddress = new Scanner(System.in);
-        PlayServerIP = 
+        PlayServerIP = input.nextLine();
 
 
         System.out.println("Enter Play server port number");
-        Scanner port = new Scanner(System.in);
+        PlaySeverPort = input.nextLine();
 
-
-
-
-        server.ListenForClientRequest();
-        
-
+       ListenForRequest();
 
         //request ip adress and port
 
