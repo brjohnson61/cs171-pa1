@@ -22,7 +22,14 @@ class Kiosk{
         }catch (IOException err){
             err.printStackTrace();
         }
-        
+        try {
+            InetAddress address = InetAddress.getLocalHost();
+            String getIPString = address.getHostAddress();
+            System.out.println(getIPString);
+        }catch(UnknownHostException ex){
+            ex.printStackTrace();
+
+        }
 
         takeUserRequest();
     }
