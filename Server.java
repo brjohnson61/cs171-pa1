@@ -49,9 +49,10 @@ class Server{
         }
 
         while (true){
-
+            System.out.println("Waiting for connection...");
             try {
                 sock = serverSocket.accept();
+                System.out.println("Accepted a connection");
                 serverSocket.close();
             }catch (IOException err){
                 err.printStackTrace();
@@ -84,38 +85,38 @@ class Server{
     
     public void setupMovieServer(){
         Scanner input = new Scanner(System.in);
-        // try {
-        //     InetAddress address = InetAddress.getLocalHost();
-        //     String getIPString = address.getHostAddress();
-        //     System.out.println(getIPString);
-        // }catch(UnknownHostException ex){
-        //     ex.printStackTrace();
-
-        // }
+        
 
         URL whatismyip;
         BufferedReader in;
         String myIp = "";
-        // try {
-        //     whatismyip = new URL("http://checkip.amazonaws.com");
-        //     in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
-        //     myIp = in.readLine();
-        // }catch (MalformedURLException err){
-        //     err.printStackTrace();
-        // } catch (IOException err){
-        //     err.printStackTrace();
-        // }
 
-        
-        
+
+        // try {
+        //     InetAddress address = InetAddress.getLocalHost();
+        //     myIp = address.getHostAddress();
+        //     System.out.println(myIp);
+        // }catch(UnknownHostException ex){
+        //     ex.printStackTrace();
+
+        // }
+        try {
+            whatismyip = new URL("http://checkip.amazonaws.com");
+            in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
+            myIp = in.readLine();
+        }catch (MalformedURLException err){
+            err.printStackTrace();
+        } catch (IOException err){
+            err.printStackTrace();
+        }
         System.out.println(myIp);
 
-        System.out.println("Enter IP address of Play server");
-        opposingServerIP = input.nextLine();
+        // System.out.println("Enter IP address of Play server");
+        // opposingServerIP = input.nextLine();
 
 
-        System.out.println("Enter Play server port number");
-        opposingServerPort = new Integer(input.nextLine());
+        // System.out.println("Enter Play server port number");
+        // opposingServerPort = new Integer(input.nextLine());
 
        ListenForRequest();
 
