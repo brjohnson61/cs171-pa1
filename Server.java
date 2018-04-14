@@ -96,15 +96,17 @@ class Server{
         URL whatismyip;
         BufferedReader in;
         String myIp = "";
-        try {
-            whatismyip = new URL("http://checkip.amazonaws.com");
-            in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
-            myIp = in.readLine();
-        }catch (MalformedURLException err){
-            err.printStackTrace();
-        } catch (IOException err){
-            err.printStackTrace();
-        }
+        // try {
+        //     whatismyip = new URL("http://checkip.amazonaws.com");
+        //     in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
+        //     myIp = in.readLine();
+        // }catch (MalformedURLException err){
+        //     err.printStackTrace();
+        // } catch (IOException err){
+        //     err.printStackTrace();
+        // }
+
+        
         
         System.out.println(myIp);
 
