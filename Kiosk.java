@@ -4,9 +4,9 @@ import java.util.Scanner;
 
 class Kiosk{
     private String movieServerIP, playServerIP, thisIP;
-    private int movieServerPort;
-    private int playServerPort;
-    private int receivePort;
+    private Integer movieServerPort;
+    private Integer playServerPort;
+    private Integer receivePort;
     private Socket movieSocket, playSocket, receiveSocket;
     private ServerSocket receiveServerSocket;
     private ObjectOutputStream toServer;
@@ -27,7 +27,7 @@ class Kiosk{
         try {
             InetAddress address = InetAddress.getLocalHost();
             thisIP = address.getHostAddress();
-            System.out.println("this machine's IP Address: " + thisIP);
+            System.out.println("This machine's IP Address: " + thisIP);
         }catch(UnknownHostException ex){
             ex.printStackTrace();
         }
@@ -48,10 +48,7 @@ class Kiosk{
             err.printStackTrace();
             System.out.println("IOException");
         }
-    
-
         setupInput.close();
-
         takeUserRequest();
     }
 
@@ -60,13 +57,29 @@ class Kiosk{
 
         while(true){
             Scanner ticketRequest = new Scanner(System.in);
-            String choice = "movie";
-            Integer numTickets = 2;
+            String choice;
+            Boolean userInputSuccess = false;
+            Integer numTickets;
+            
+            do{
+                System.out.println("Enter 'movie' to purchase a movie ticket, or 'play' to purchase a play ticket.");
+                choice = ticketRequest.nextLine();
+                System.out.println("Enter the number of tickets you would like to purchase:");
+                numTickets = ticketRequest.nextInt();
+
+                if((choice.equals("movie") || choice.equals("play")) && numTickets > 0){
+                    userInputSuccess = true;
+                }
+                else{
+                    System.out.println("Please enter a valid input!");
+                }
+            }while(!userInputSuccess);
+            
             Request request = new Request(true, numTickets);
-            
-            
             request.setHasRedirected(false);
             request.setSucessfullyProcessed(false);
+            request.setOriginalIP(thisIP);
+            request.setOriginalPort(receivePort);;
 
             sendRequest(request);
             responseFromServer();
