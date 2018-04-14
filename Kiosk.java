@@ -4,79 +4,72 @@ import java.util.Scanner;
 
 class Kiosk{
     private String movieServerIP, playServerIP, thisIP;
-    private int movieServerPort, playServerPort;
-    private Socket movieSocket, playSocket;
+    private int movieServerPort = 4243;
+    private int playServerPort = 4242;
+    private Socket movieSocket, playSocket, receiveSocket;
+    private ServerSocket receiveServerSocket;
+    private ObjectOutputStream toServer;
+    private ObjectInputStream fromServer;
 
     
 
     public void setupKiosk(){
-        Scanner input = new Scanner(System.in);
-
-        try {
-            InetAddress address = InetAddress.getLocalHost();
-            String thisIP = address.getHostAddress();
-            System.out.println(thisIP);
-        }catch(UnknownHostException ex){
-            ex.printStackTrace();
-
-        }
-
-        System.out.println("Enter Movie server IP address: ");
-        movieServerIP = input.nextLine();
-
-        System.out.println("Enter Movie server port number: ");
-        movieServerPort = input.nextInt();
-
-        System.out.println("Enter Play server IP address: ");
-        playServerIP = input.nextLine();
-
-        System.out.println("Enter Play server port number: ");
-        playServerPort = input.nextInt();
         try {
             movieSocket = new Socket(movieServerIP, movieServerPort);
-            playSocket = new Socket(playServerIP, playServerPort);
+            //playSocket = new Socket(playServerIP, playServerPort);
         }catch (UnknownHostException err){
             err.printStackTrace();
         }catch (IOException err){
             err.printStackTrace();
         }
         
-       
 
-        start();
+        takeUserRequest();
     }
 
-    public void start(){
-        
-        while(true){
-            Scanner RequestInput = new Scanner(System.in);
-            String choice;
-            Integer numTickets;
-            Request request;
-            
-            System.out.println("Enter 'movie' for movie and 'play' for play");
-            choice = RequestInput.nextLine();
+    public void takeUserRequest(){
 
-            System.out.println("Enter the number of tickets you want to purchase");
-            numTickets = RequestInput.nextInt();
+
+        while(true){
+            String choice = "movie";
+            Integer numTickets = 2;
+            Request request = new Request(true, numTickets);
             
-            if(choice.equals("movie")){
-                request = new Request(choice, numTickets);
-                request.setHasRedirected(false);
-            }
-            RequestInput.close();
+            
+            request.setHasRedirected(false);
+            request.setSucessfullyProcessed(false);
+
+            sendRequest(request);
+            responseFromServer();
+        }
+        
+    }
+
+    public void sendRequest(Request request){
+        try{
+            OutputStream os = movieSocket.getOutputStream();
+            toServer = new ObjectOutputStream(os);
+            toServer.writeObject(request);
+            toServer.close();
+            os.close();
+        }catch(Exception e){
+            e.printStackTrace();
         }
     }
 
-    public void sendRequest(){
-
+    public void responseFromServer(){
+        try{
+            receiveServerSocket = new ServerSocket(4350);
+            receiveSocket = receiveServerSocket.accept();
+            InputStream is = receiveSocket.getInputStream();
+            fromServer = new ObjectInputStream(is);
+            Request receivedRequest = (Request)fromServer.readObject();
+            is.close();
+            receiveSocket.close();
+            receiveServerSocket.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
-
-
-
-
-
-
-
 
 }
