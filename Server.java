@@ -16,7 +16,7 @@ class Server{
     public Server(Boolean type){
         if (type){
             this.type = "movie";
-            this.PORT = 4243;
+            this.PORT = 4001;
         }else{
             this.type = "play";
             this.PORT = 4242;
@@ -27,39 +27,49 @@ class Server{
     ProcessRequest processRequest = new ProcessRequest();
 
     public synchronized Boolean buyTickets(int num){
+	System.out.println("About to buy " + num + " tickets" );
         if (ticketsLeft <= 0){
+	    System.out.println("Unable to buy tickets");
             return false;
         }else{
             int temp = ticketsLeft - num;
             if (temp < 0){
                 return false;
             } else{
-                return true;
-            }
+		ticketsLeft = ticketsLeft - num;
+		System.out.println("Bought tickets! There are " + ticketsLeft + " tickets left");
+            	return true;
+	    }
+	    
         }
     }
 
 
     public void ListenForRequest() {
 
-        try {
-            serverSocket = new ServerSocket(PORT);
-        } catch (IOException ex){
-            ex.printStackTrace();
-        }
+        //try {
+        //    serverSocket = new ServerSocket(PORT);
+        //} catch (IOException ex){
+        //    ex.printStackTrace();
+        //}
 
         while (true){
             System.out.println("Waiting for connection...");
             try {
+		serverSocket = new ServerSocket(PORT);
                 sock = serverSocket.accept();
                 System.out.println("Accepted a connection");
-                serverSocket.close();
+                processRequest.sock = this.sock;
+		System.out.println("Creating new thread");
+                Thread newClient = new Thread(processRequest);
+		newClient.start();
+		serverSocket.close();
             }catch (IOException err){
                 err.printStackTrace();
             }
-            processRequest.sock = this.sock;
-            Thread newClient = new Thread(processRequest);
-
+            //processRequest.sock = this.sock;
+            //Thread newClient = new Thread(processRequest);
+	    	
                 
         }
     }
@@ -92,24 +102,24 @@ class Server{
         String myIp = "";
 
 
-        // try {
-        //     InetAddress address = InetAddress.getLocalHost();
-        //     myIp = address.getHostAddress();
-        //     System.out.println(myIp);
-        // }catch(UnknownHostException ex){
-        //     ex.printStackTrace();
+         try {
+             InetAddress address = InetAddress.getLocalHost();
+             myIp = address.getHostAddress();
+             System.out.println(myIp);
+         }catch(UnknownHostException ex){
+             ex.printStackTrace();
 
-        // }
-        try {
-            whatismyip = new URL("http://checkip.amazonaws.com");
-            in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
-            myIp = in.readLine();
-        }catch (MalformedURLException err){
-            err.printStackTrace();
-        } catch (IOException err){
-            err.printStackTrace();
-        }
-        System.out.println(myIp);
+         }
+        //try {
+        //    whatismyip = new URL("http://checkip.amazonaws.com");
+        //    in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
+        //    myIp = in.readLine();
+        //}catch (MalformedURLException err){
+        //    err.printStackTrace();
+        //} catch (IOException err){
+        //    err.printStackTrace();
+        //}
+       	//System.out.println(myIp);
 
         // System.out.println("Enter IP address of Play server");
         // opposingServerIP = input.nextLine();
@@ -130,21 +140,31 @@ class Server{
 
         public void run(){
             try {
+		System.out.println("Processing Request");
                 InputStream is = this.sock.getInputStream();
                 ObjectInputStream ois = new ObjectInputStream(is);
                 try {
+		    System.out.println("Reading Request");
                     Request request = (Request)ois.readObject();
                     if (request != null ){
-
+			
                         if( request.getRequestType().equals(type)){
-                             Boolean sucesssfull = buyTickets(request.getNumTickets());
-                             request.setSucessfullyProcessed(sucesssfull);
+			     System.out.println("Request type " + request.getRequestType());
+			     System.out.println("Number of tickets " + request.getNumTickets());
 
+                             Boolean sucessfull = buyTickets(request.getNumTickets());
+			     System.out.println("Buy tickets sucessfulll ? = " + sucessfull);
+                             request.setSucessfullyProcessed(sucessfull);
+			     System.out.println("Number of tickets left = " + ticketsLeft);
+			    
+                            				     
                             if (request.getHasRedirected()){
                                 SendRequestTo(opposingServerIP,opposingServerPort,request);
                             }else{
+				System.out.println("About to send request to original client");
                                 SendRequestTo(request.getOriginalIP(), request.getOriginalPort(), request);
-                            }
+                            	System.out.println("Sent request to original client");
+			    }
 
                         }else {
                             if(request.getHasRedirected()){
@@ -165,7 +185,7 @@ class Server{
             }catch (IOException err){
                 err.printStackTrace();
             }
-            
+            System.out.println("Done reciving request");
                 
                 
         }

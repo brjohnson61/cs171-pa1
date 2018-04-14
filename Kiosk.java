@@ -3,8 +3,8 @@ import java.net.*;
 import java.util.Scanner;
 
 class Kiosk{
-    private String movieServerIP = "192.168.0.21", playServerIP, thisIP;
-    private int movieServerPort = 4243;
+    private String movieServerIP = "128.111.43.31", playServerIP, thisIP;
+    private int movieServerPort = 4001;
     private int playServerPort = 4242;
     private Socket movieSocket, playSocket, receiveSocket;
     private ServerSocket receiveServerSocket;
