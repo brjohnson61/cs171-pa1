@@ -13,7 +13,7 @@ class Server{
     private Socket sock;
 
     
-    public void Server(Boolean type){
+    public Server(Boolean type){
         if (type){
             this.type = "movie";
             this.PORT = 4243;

@@ -19,7 +19,7 @@ class Main{
             input = InputScanner.nextLine();
             if(input.equals("M") || input.equals("m")){
                 System.out.println("Movie Server");
-                MovieServer movieServer = new MovieServer();
+                Server movieServer = new Server(true);
                 movieServer.setupMovieServer();
             }
             else if(input.equals("P") || input.equals("p")){
