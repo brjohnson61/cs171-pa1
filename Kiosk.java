@@ -3,7 +3,7 @@ import java.net.*;
 import java.util.Scanner;
 
 class Kiosk{
-    private String movieServerIP, playServerIP, thisIP;
+    private String movieServerIP = "192.168.0.21", playServerIP, thisIP;
     private int movieServerPort = 4243;
     private int playServerPort = 4242;
     private Socket movieSocket, playSocket, receiveSocket;
@@ -15,12 +15,16 @@ class Kiosk{
 
     public void setupKiosk(){
         try {
+            System.out.println("trying socket");
             movieSocket = new Socket(movieServerIP, movieServerPort);
             //playSocket = new Socket(playServerIP, playServerPort);
+            System.out.println("Socket Working");
         }catch (UnknownHostException err){
+            System.out.println("Unknown Host exception");
             err.printStackTrace();
         }catch (IOException err){
             err.printStackTrace();
+            System.out.println("IOException");
         }
         try {
             InetAddress address = InetAddress.getLocalHost();
@@ -59,6 +63,7 @@ class Kiosk{
             toServer.writeObject(request);
             toServer.close();
             os.close();
+            System.out.println("sent.");
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -74,6 +79,7 @@ class Kiosk{
             is.close();
             receiveSocket.close();
             receiveServerSocket.close();
+            System.out.println("received");
         }catch(Exception e){
             e.printStackTrace();
         }
