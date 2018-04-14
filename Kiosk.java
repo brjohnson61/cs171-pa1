@@ -3,9 +3,10 @@ import java.net.*;
 import java.util.Scanner;
 
 class Kiosk{
-    private String movieServerIP = "128.111.43.31", playServerIP, thisIP;
-    private int movieServerPort = 4001;
-    private int playServerPort = 4242;
+    private String movieServerIP, playServerIP, thisIP;
+    private int movieServerPort;
+    private int playServerPort;
+    private int receivePort;
     private Socket movieSocket, playSocket, receiveSocket;
     private ServerSocket receiveServerSocket;
     private ObjectOutputStream toServer;
@@ -14,6 +15,27 @@ class Kiosk{
     
 
     public void setupKiosk(){
+        Scanner setupInput = new Scanner(System.in);
+
+        System.out.println("Enter Movie Server IP address:");
+        movieServerIP = setupInput.nextLine();
+        
+        System.out.println("Enter Movie Server port number:");
+        movieServerPort = setupInput.nextInt();
+
+
+        try {
+            InetAddress address = InetAddress.getLocalHost();
+            thisIP = address.getHostAddress();
+            System.out.println("this machine's IP Address: " + thisIP);
+        }catch(UnknownHostException ex){
+            ex.printStackTrace();
+        }
+
+        
+        System.out.println("Enter Port Number to receive requests back from server");
+        receivePort = setupInput.nextInt();
+
         try {
             System.out.println("trying socket");
             movieSocket = new Socket(movieServerIP, movieServerPort);
@@ -26,14 +48,9 @@ class Kiosk{
             err.printStackTrace();
             System.out.println("IOException");
         }
-        try {
-            InetAddress address = InetAddress.getLocalHost();
-            String getIPString = address.getHostAddress();
-            System.out.println(getIPString);
-        }catch(UnknownHostException ex){
-            ex.printStackTrace();
+    
 
-        }
+        setupInput.close();
 
         takeUserRequest();
     }
@@ -42,6 +59,7 @@ class Kiosk{
 
 
         while(true){
+            Scanner ticketRequest = new Scanner(System.in);
             String choice = "movie";
             Integer numTickets = 2;
             Request request = new Request(true, numTickets);
@@ -52,6 +70,7 @@ class Kiosk{
 
             sendRequest(request);
             responseFromServer();
+            ticketRequest.close();
         }
         
     }

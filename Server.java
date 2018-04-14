@@ -16,10 +16,10 @@ class Server{
     public Server(Boolean type){
         if (type){
             this.type = "movie";
-            this.PORT = 4001;
+            //this.PORT = 4001;
         }else{
             this.type = "play";
-            this.PORT = 4242;
+            //this.PORT = 4242;
         }
     }
 
@@ -102,14 +102,14 @@ class Server{
         String myIp = "";
 
 
-         try {
+        try {
              InetAddress address = InetAddress.getLocalHost();
              myIp = address.getHostAddress();
              System.out.println(myIp);
-         }catch(UnknownHostException ex){
+        }catch(UnknownHostException ex){
              ex.printStackTrace();
 
-         }
+        }
         //try {
         //    whatismyip = new URL("http://checkip.amazonaws.com");
         //    in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
@@ -128,7 +128,12 @@ class Server{
         // System.out.println("Enter Play server port number");
         // opposingServerPort = new Integer(input.nextLine());
 
-       ListenForRequest();
+        System.out.println("Enter Port number for server to listen on:");
+        this.PORT = input.nextInt();
+
+        input.close();
+
+        ListenForRequest();
 
         //request ip adress and port
 
