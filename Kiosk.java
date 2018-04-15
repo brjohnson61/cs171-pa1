@@ -45,16 +45,16 @@ class Kiosk{
 
 
         while(true){
-            Scanner ticketRequest = new Scanner(System.in);
             String choice = "movie";
             Boolean userInputSuccess = false;
             Integer numTickets = 2;
             
             do{
+                Scanner ticketRequest = new Scanner(System.in);
                 System.out.println("Enter 'movie' to purchase a movie ticket, or 'play' to purchase a play ticket.");
-                //choice = ticketRequest.nextLine();
+                choice = ticketRequest.nextLine();
                 System.out.println("Enter the number of tickets you would like to purchase:");
-                //numTickets = ticketRequest.nextInt();
+                numTickets = ticketRequest.nextInt();
 
                 if((choice.equals("movie") || choice.equals("play")) && numTickets > 0){
                     userInputSuccess = true;
@@ -62,8 +62,11 @@ class Kiosk{
                 else{
                     System.out.println("Please enter a valid input!");
                 }
+                ticketRequest.close();
             }while(!userInputSuccess);
             
+
+
             Request request = new Request(true, numTickets);
             request.setHasRedirected(false);
             request.setSucessfullyProcessed(false);
