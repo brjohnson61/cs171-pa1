@@ -36,18 +36,7 @@ class Kiosk{
         System.out.println("Enter Port Number to receive requests back from server");
         receivePort = setupInput.nextInt();
 
-        try {
-            System.out.println("trying socket");
-            movieSocket = new Socket(movieServerIP, movieServerPort);
-            //playSocket = new Socket(playServerIP, playServerPort);
-            System.out.println("Socket Working");
-        }catch (UnknownHostException err){
-            System.out.println("Unknown Host exception");
-            err.printStackTrace();
-        }catch (IOException err){
-            err.printStackTrace();
-            System.out.println("IOException");
-        }
+        
         setupInput.close();
         takeUserRequest();
     }
@@ -90,6 +79,18 @@ class Kiosk{
 
     public void sendRequest(Request request){
         try{
+            try {
+                System.out.println("trying socket");
+                movieSocket = new Socket(movieServerIP, movieServerPort);
+                //playSocket = new Socket(playServerIP, playServerPort);
+                System.out.println("Socket Working");
+            }catch (UnknownHostException err){
+                System.out.println("Unknown Host exception");
+                err.printStackTrace();
+            }catch (IOException err){
+                err.printStackTrace();
+                System.out.println("IOException");
+            }
             OutputStream os = movieSocket.getOutputStream();
             toServer = new ObjectOutputStream(os);
             toServer.writeObject(request);
