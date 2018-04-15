@@ -48,13 +48,13 @@ class Kiosk{
             Scanner ticketRequest = new Scanner(System.in);
             String choice = "";
             Boolean userInputSuccess = false;
-            Integer numTickets;
+            Integer numTickets = 2;
             
             do{
                 System.out.println("Enter 'movie' to purchase a movie ticket, or 'play' to purchase a play ticket.");
                 //choice = ticketRequest.nextLine();
                 System.out.println("Enter the number of tickets you would like to purchase:");
-                numTickets = ticketRequest.nextInt();
+                //numTickets = ticketRequest.nextInt();
 
                 if((choice.equals("movie") || choice.equals("play")) && numTickets > 0){
                     userInputSuccess = true;
