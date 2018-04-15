@@ -34,7 +34,7 @@ class Kiosk{
 
         
         System.out.println("Enter Port Number to receive requests back from server");
-        receivePort = getUserInputInt();
+        receivePort = scan.nextInt();
 
         
         takeUserRequest();
@@ -51,7 +51,7 @@ class Kiosk{
                 try{
                 System.out.println("Enter 'movie' to purchase a movie ticket, or 'play' to purchase a play ticket.");
                 choice = scan.nextLine();
-                System.out.println(choice);
+               
                 System.out.println("Enter the number of tickets you would like to purchase:");
                 numTickets = scan.nextInt();
                 
@@ -120,18 +120,18 @@ class Kiosk{
         }
     }
 
-    public String getUserInputString(){
-        Scanner scanner = new Scanner(System.in);
-        String usrin = scanner.nextLine();
-        scanner.close();
-        return usrin;
-    }
+    // public String getUserInputString(){
+    //     Scanner scanner = new Scanner(System.in);
+    //     String usrin = scanner.nextLine();
+    //     scanner.close();
+    //     return usrin;
+    // }
 
-    public Integer getUserInputInt(){
-        Scanner scanner = new Scanner(System.in);
-        Integer usrin = scanner.nextInt();
-        scanner.close();
-        return usrin;
-    }
+    // public Integer getUserInputInt(){
+    //     Scanner scanner = new Scanner(System.in);
+    //     Integer usrin = scanner.nextInt();
+    //     scanner.close();
+    //     return usrin;
+    // }
 
 }
