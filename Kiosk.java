@@ -42,7 +42,7 @@ class Kiosk{
     }
 
     public void takeUserRequest(){
-        Scanner scanner = new Scanner(System.in);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
         while(true){
             String choice = "movie";
@@ -50,11 +50,17 @@ class Kiosk{
             Integer numTickets = 2;
 
             do{
+                try{
                 System.out.println("Enter 'movie' to purchase a movie ticket, or 'play' to purchase a play ticket.");
-                choice = scanner.nextLine();
+                choice = reader.readLine();
+                System.out.println(choice);
                 System.out.println("Enter the number of tickets you would like to purchase:");
-                numTickets = scanner.nextInt();
-
+                
+                numTickets = Integer.valueOf(reader.readLine());
+                System.out.println(numTickets);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
                 if((choice.equals("movie") || choice.equals("play")) && numTickets > 0){
                     userInputSuccess = true;
                 }
@@ -71,7 +77,11 @@ class Kiosk{
 
             sendRequest(request);
             responseFromServer();
-            scanner.close();
+            try{
+            reader.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
         
     }
