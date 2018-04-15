@@ -48,7 +48,7 @@ class Kiosk{
             String choice = "movie";
             Boolean userInputSuccess = false;
             Integer numTickets = 2;
-            
+
             do{
                 Scanner ticketRequest = new Scanner(System.in);
                 System.out.println("Enter 'movie' to purchase a movie ticket, or 'play' to purchase a play ticket.");
@@ -75,7 +75,7 @@ class Kiosk{
 
             sendRequest(request);
             responseFromServer();
-            ticketRequest.close();
+            //ticketRequest.close();
         }
         
     }
@@ -120,5 +120,12 @@ class Kiosk{
             e.printStackTrace();
         }
     }
+
+    // public String getUserInputString(){
+    //     Scanner scanner = new Scanner(System.in);
+    //     String usrin = scanner.nextLine();
+    //     scanner.close();
+    //     return usrin;
+    // }
 
 }
