@@ -50,11 +50,10 @@ class Kiosk{
             Integer numTickets = 2;
 
             do{
-                Scanner ticketRequest = new Scanner(System.in);
                 System.out.println("Enter 'movie' to purchase a movie ticket, or 'play' to purchase a play ticket.");
-                choice = ticketRequest.nextLine();
+                choice = getUserInputString();
                 System.out.println("Enter the number of tickets you would like to purchase:");
-                numTickets = ticketRequest.nextInt();
+                numTickets = getUserInputInt();
 
                 if((choice.equals("movie") || choice.equals("play")) && numTickets > 0){
                     userInputSuccess = true;
@@ -62,11 +61,8 @@ class Kiosk{
                 else{
                     System.out.println("Please enter a valid input!");
                 }
-                ticketRequest.close();
             }while(!userInputSuccess);
             
-
-
             Request request = new Request(true, numTickets);
             request.setHasRedirected(false);
             request.setSucessfullyProcessed(false);
@@ -75,7 +71,6 @@ class Kiosk{
 
             sendRequest(request);
             responseFromServer();
-            //ticketRequest.close();
         }
         
     }
@@ -121,11 +116,18 @@ class Kiosk{
         }
     }
 
-    // public String getUserInputString(){
-    //     Scanner scanner = new Scanner(System.in);
-    //     String usrin = scanner.nextLine();
-    //     scanner.close();
-    //     return usrin;
-    // }
+    public String getUserInputString(){
+        Scanner scanner = new Scanner(System.in);
+        String usrin = scanner.nextLine();
+        scanner.close();
+        return usrin;
+    }
+
+    public Integer getUserInputInt(){
+        Scanner scanner = new Scanner(System.in);
+        Integer usrin = scanner.nextInt();
+        scanner.close();
+        return usrin;
+    }
 
 }
