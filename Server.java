@@ -52,26 +52,30 @@ class Server{
         //} catch (IOException ex){
         //    ex.printStackTrace();
         //}
+	try {
 
-        while (true){
-            System.out.println("Waiting for connection...");
-            try {
 		serverSocket = new ServerSocket(PORT);
-                sock = serverSocket.accept();
-                System.out.println("Accepted a connection");
-                processRequest.sock = this.sock;
-		System.out.println("Creating new thread");
-                Thread newClient = new Thread(processRequest);
-		newClient.start();
-		serverSocket.close();
-            }catch (IOException err){
-                err.printStackTrace();
-            }
+        	while (true){
+            	System.out.println("Waiting for connection...");
+            	try {
+                	sock = serverSocket.accept();
+                	System.out.println("Accepted a connection");
+                	processRequest.sock = this.sock;
+			System.out.println("Creating new thread");
+                	Thread newClient = new Thread(processRequest);
+			newClient.start();
+            	}catch (IOException err){
+                	err.printStackTrace();
+            	}
+	
+	    
             //processRequest.sock = this.sock;
-            //Thread newClient = new Thread(processRequest);
-	    	
-                
-        }
+            //Thread newClient = new Thread(processRequest)    	
+        			        
+        	}
+	}catch (IOException err){
+		err.printStackTrace();
+	}
     }
 
     public void SendRequestTo(String ipAddress, int port, Request request){
@@ -147,8 +151,9 @@ class Server{
             try {
 		System.out.println("Processing Request");
                 InputStream is = this.sock.getInputStream();
+		System.out.println("Don with socket input");
                 ObjectInputStream ois = new ObjectInputStream(is);
-                try {
+		try {
 		    System.out.println("Reading Request");
                     Request request = (Request)ois.readObject();
                     if (request != null ){
@@ -184,13 +189,14 @@ class Server{
                     }
                 }catch (ClassNotFoundException cnfe){
                     cnfe.printStackTrace();
-                }
+		}
+		System.out.println("Closing alll streams");
                 is.close();
                 sock.close();
-            }catch (IOException err){
+	}catch (IOException err){
                 err.printStackTrace();
-            }
-            System.out.println("Done reciving request");
+        }
+        System.out.println("Done reciving request");
                 
                 
         }
