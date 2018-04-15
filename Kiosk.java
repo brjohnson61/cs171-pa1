@@ -11,17 +11,17 @@ class Kiosk{
     private ServerSocket receiveServerSocket;
     private ObjectOutputStream toServer;
     private ObjectInputStream fromServer;
-
+    static final Scanner scan = new Scanner(System.in);
     
 
     public void setupKiosk(){
-        Scanner setupInput = new Scanner(System.in);
+       
 
         System.out.println("Enter Movie Server IP address:");
-        movieServerIP = setupInput.nextLine();
+        movieServerIP = scan.nextLine();
         
         System.out.println("Enter Movie Server port number:");
-        movieServerPort = setupInput.nextInt();
+        movieServerPort = scan.nextInt();
 
 
         try {
@@ -37,12 +37,10 @@ class Kiosk{
         receivePort = getUserInputInt();
 
         
-        setupInput.close();
         takeUserRequest();
     }
 
     public void takeUserRequest(){
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
         while(true){
             String choice = "movie";
@@ -52,11 +50,11 @@ class Kiosk{
             do{
                 try{
                 System.out.println("Enter 'movie' to purchase a movie ticket, or 'play' to purchase a play ticket.");
-                choice = reader.readLine();
+                choice = scan.nextLine();
                 System.out.println(choice);
                 System.out.println("Enter the number of tickets you would like to purchase:");
+                numTickets = scan.nextInt();
                 
-                numTickets = Integer.valueOf(reader.readLine());
                 System.out.println(numTickets);
                 }catch(Exception e){
                     e.printStackTrace();
@@ -77,11 +75,6 @@ class Kiosk{
 
             sendRequest(request);
             responseFromServer();
-            try{
-            reader.close();
-            }catch(Exception e){
-                e.printStackTrace();
-            }
         }
         
     }
