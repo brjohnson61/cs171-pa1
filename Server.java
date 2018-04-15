@@ -80,6 +80,8 @@ class Server{
 
     public void SendRequestTo(String ipAddress, int port, Request request){
         try {
+            System.out.println("IP Address: " + ipAddress);
+            System.out.println("Port Number: " + port);
             Socket s = new Socket(ipAddress, port);
             OutputStream os = s.getOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(os);
