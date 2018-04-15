@@ -34,7 +34,7 @@ class Kiosk{
 
         
         System.out.println("Enter Port Number to receive requests back from server");
-        receivePort = setupInput.nextInt();
+        receivePort = getUserInputInt();
 
         
         setupInput.close();
