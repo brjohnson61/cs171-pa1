@@ -46,7 +46,7 @@ class Kiosk{
 
         while(true){
             Scanner ticketRequest = new Scanner(System.in);
-            String choice = "";
+            String choice = "movie";
             Boolean userInputSuccess = false;
             Integer numTickets = 2;
             
