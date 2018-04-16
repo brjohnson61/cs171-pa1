@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 class Server{
 
@@ -29,7 +30,7 @@ class Server{
 
     public synchronized Boolean buyTickets(int num){
         if (ticketsLeft <= 0){
-	    System.out.println("Unable to buy tickets");
+	    //System.out.println("Unable to buy tickets");
             return false;
         }else{
             int temp = ticketsLeft - num;
@@ -53,7 +54,7 @@ class Server{
 
 		serverSocket = new ServerSocket(PORT);
         	while (true){
-            	System.out.println("Waiting for connection...");
+            	//System.out.println("Waiting for connection...");
             	try {
                 	sock = serverSocket.accept();
                 	//System.out.println("Accepted a connection");
@@ -72,7 +73,9 @@ class Server{
     }
 
     public void SendRequestTo(String ipAddress, int port, Request request){
+        
         try {
+            TimeUnit.SECONDS.sleep(5);
             //System.out.println("Sending To");
             //System.out.println("IP Address: " );
             //System.out.println(ipAddress);
@@ -88,6 +91,8 @@ class Server{
             s.close();
        
             
+        }catch ( InterruptedException err){
+            err.printStackTrace();
         }catch (IOException ex){
             ex.printStackTrace();
 
@@ -145,11 +150,11 @@ class Server{
                         //System.out.println(request.getNumTickets());
 
                         Boolean sucessfull = buyTickets(request.getNumTickets());
-                        System.out.println("Buy tickets sucessfulll ?");
+                        System.out.print("Buy tickets sucessfulll ");
                         System.out.println(sucessfull);
                         request.setSucessfullyProcessed(sucessfull);
                         request.setRemaining(ticketsLeft);
-                        System.out.println("Number of tickets left" );
+                        System.out.print("Number of tickets left " );
                         System.out.println(ticketsLeft);
                     
                                                     

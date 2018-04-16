@@ -2,6 +2,7 @@ import java.io.*;
 import java.net.*;
 import java.util.Scanner;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 class Kiosk{
     private String movieServerIP, playServerIP, thisIP;
@@ -95,9 +96,11 @@ class Kiosk{
     }
 
     public void sendRequest(Request request){
+        
         Integer rn = rand.nextInt(2);
         try{
             try {
+                TimeUnit.SECONDS.sleep(5);
                 //System.out.println("trying socket");
                 System.out.print("Random integer is:");
                 System.out.println(rn);
@@ -116,6 +119,8 @@ class Kiosk{
             }catch (IOException err){
                 err.printStackTrace();
                 System.out.println("IOException");
+            }catch(InterruptedException err){
+                err.printStackTrace();
             }
             OutputStream os;
             if(rn == 1){
