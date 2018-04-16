@@ -74,8 +74,10 @@ class Server{
     public void SendRequestTo(String ipAddress, int port, Request request){
         try {
             System.out.println("Sending To");
-            System.out.println("IP Address: " + ipAddress);
-            System.out.println("Port Number: " + port);
+            System.out.println("IP Address: " );
+            System.out.println(ipAddress);
+            System.out.println("Port Number: " );
+            System.our.println(port);
             Socket s = new Socket(ipAddress, port);
             //System.out.println("Socket created");
             OutputStream os = s.getOutputStream();
