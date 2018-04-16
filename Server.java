@@ -37,9 +37,9 @@ class Server{
                 return false;
             } else{
 		ticketsLeft = ticketsLeft - num;
-        System.out.println("Bought tickets");
-        System.out.print("Tickets left: ");
-		System.out.println( ticketsLeft);
+        //System.out.println("Bought tickets");
+        //System.out.print("Tickets left: ");
+		//System.out.println( ticketsLeft);
             	return true;
 	    }
 	    
@@ -73,11 +73,11 @@ class Server{
 
     public void SendRequestTo(String ipAddress, int port, Request request){
         try {
-            System.out.println("Sending To");
-            System.out.println("IP Address: " );
-            System.out.println(ipAddress);
-            System.out.println("Port Number: " );
-            System.out.println(port);
+            //System.out.println("Sending To");
+            //System.out.println("IP Address: " );
+            //System.out.println(ipAddress);
+            //System.out.println("Port Number: " );
+            //System.out.println(port);
             Socket s = new Socket(ipAddress, port);
             //System.out.println("Socket created");
             OutputStream os = s.getOutputStream();
@@ -129,12 +129,12 @@ class Server{
 
         public void run(){
         try {
-		    System.out.println("Processing Request");
+		    //System.out.println("Processing Request");
             InputStream is = this.sock.getInputStream();
 		    //System.out.println("Done with socket input");
             ObjectInputStream ois = new ObjectInputStream(is);
             try {
-                System.out.println("Reading Request");
+                //System.out.println("Reading Request");
                 Request request = (Request)ois.readObject();
                 //System.out.println("Read request");
                 if (request != null ){
@@ -176,13 +176,13 @@ class Server{
             }catch (ClassNotFoundException cnfe){
                 cnfe.printStackTrace();
             }
-		    System.out.println("Closing alll streams");
+		    //System.out.println("Closing alll streams");
             is.close();
             sock.close();
 	    }catch (IOException err){
                 err.printStackTrace();
         }
-        System.out.println("Done reciving request");
+        //System.out.println("Done reciving request");
                 
                 
         }
