@@ -77,7 +77,7 @@ class Server{
             System.out.println("IP Address: " );
             System.out.println(ipAddress);
             System.out.println("Port Number: " );
-            System.our.println(port);
+            System.out.println(port);
             Socket s = new Socket(ipAddress, port);
             //System.out.println("Socket created");
             OutputStream os = s.getOutputStream();
