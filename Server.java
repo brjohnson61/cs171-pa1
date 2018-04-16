@@ -162,8 +162,10 @@ class Server{
                 System.out.println("Read request");
                 if (request != null ){
                     if( request.getRequestType().equals(type)){
-                        System.out.println("Request type " + request.getRequestType());
-                        System.out.println("Number of tickets " + request.getNumTickets());
+                        System.out.println("Request type:");
+                        System.out.println(request.getRequestType());
+                        System.out.println("Number of tickets ");
+                        System.out.println(request.getNumTickets());
 
                         Boolean sucessfull = buyTickets(request.getNumTickets());
                         System.out.println("Buy tickets sucessfulll ? = " + sucessfull);
