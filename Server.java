@@ -110,6 +110,7 @@ class Server{
         try {
              InetAddress address = InetAddress.getLocalHost();
              myIp = address.getHostAddress();
+             System.out.print("Server IP address: ");
              System.out.println(myIp);
         }catch(UnknownHostException ex){
              ex.printStackTrace();
@@ -144,18 +145,20 @@ class Server{
                 //System.out.println("Read request");
                 if (request != null ){
                     System.out.print("Request type: ");
-                    System.out.println(request.getRequestType());
+                    System.out.print(request.getRequestType());
+                    System.out.print(" Ticket amount: ");
+                    System.out.println(request.getNumTickets());
                     if( request.getRequestType().equals(type)){
                         //System.out.println("Request type:");
                         //System.out.println(request.getRequestType());
                         //System.out.println("Number of tickets:");
                         //System.out.println(request.getNumTickets());
                         Boolean sucessfull = buyTickets(request.getNumTickets());
-                        System.out.print("Buy tickets sucessfulll ");
+                        System.out.print("Bought tickets successfully: ");
                         System.out.println(sucessfull);
                         request.setSucessfullyProcessed(sucessfull);
                         request.setRemaining(ticketsLeft);
-                        System.out.print("Number of tickets left " );
+                        System.out.print("Number of tickets left: " );
                         System.out.println(ticketsLeft);
                     
                                                     
