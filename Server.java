@@ -28,7 +28,7 @@ class Server{
     ProcessRequest processRequest = new ProcessRequest();
 
     public synchronized Boolean buyTickets(int num){
-	System.out.println("About to buy " + num + " tickets" );
+	//System.out.println("About to buy " + num + " tickets" );
         if (ticketsLeft <= 0){
 	    System.out.println("Unable to buy tickets");
             return false;
@@ -38,7 +38,8 @@ class Server{
                 return false;
             } else{
 		ticketsLeft = ticketsLeft - num;
-		System.out.println("Bought tickets! There are " + ticketsLeft + " tickets left");
+        System.out.print("Tickets left: ")
+		System.out.println( ticketsLeft);
             	return true;
 	    }
 	    
