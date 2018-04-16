@@ -98,7 +98,7 @@ class Kiosk{
         Integer rn = rand.nextInt(2);
         try{
             try {
-                System.out.println("trying socket");
+                //System.out.println("trying socket");
                 System.out.print("Random integer is:");
                 System.out.println(rn);
                 if(rn == 1){
@@ -109,7 +109,7 @@ class Kiosk{
                     playSocket = new Socket(playServerIP, playServerPort);
                     System.out.println("Sent to play server");
                 }
-                System.out.println("Socket Working");
+                //System.out.println("Socket Working");
             }catch (UnknownHostException err){
                 System.out.println("Unknown Host exception");
                 err.printStackTrace();
@@ -144,7 +144,7 @@ class Kiosk{
             is.close();
             receiveSocket.close();
             receiveServerSocket.close();
-            System.out.println("received");
+            //System.out.println("received");
             System.out.println("Tickets remaining:");
             System.out.println(receivedRequest.getRemaining());
         }catch(Exception e){
