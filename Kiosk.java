@@ -149,8 +149,9 @@ class Kiosk{
             is.close();
             receiveSocket.close();
             receiveServerSocket.close();
-            //System.out.println("received");
-            System.out.println("Tickets remaining:");
+            System.out.print("Purchase Successful: ");
+            System.out.println(receivedRequest.getSucessfullyProcessed());
+            System.out.print("Tickets remaining:");
             System.out.println(receivedRequest.getRemaining());
         }catch(Exception e){
             e.printStackTrace();
