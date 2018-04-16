@@ -169,14 +169,16 @@ class Server{
                     if( request.getRequestType().equals(type)){
                         System.out.println("Request type:");
                         System.out.println(request.getRequestType());
-                        System.out.println("Number of tickets ");
+                        System.out.println("Number of tickets:");
                         System.out.println(request.getNumTickets());
 
                         Boolean sucessfull = buyTickets(request.getNumTickets());
-                        System.out.println("Buy tickets sucessfulll ? = " + sucessfull);
+                        System.out.println("Buy tickets sucessfulll ?");
+                        System.out.println(sucessfull);
                         request.setSucessfullyProcessed(sucessfull);
                         request.setRemaining(ticketsLeft);
-                        System.out.println("Number of tickets left = " + ticketsLeft);
+                        System.out.println("Number of tickets left" );
+                        System.out.println(ticketsLeft);
                     
                                                     
                         if (request.getHasRedirected()){
