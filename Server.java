@@ -150,51 +150,50 @@ class Server{
         private Socket sock;
 
         public void run(){
+        try {
+		    System.out.println("Processing Request");
+            InputStream is = this.sock.getInputStream();
+		    System.out.println("Don with socket input");
+            ObjectInputStream ois = new ObjectInputStream(is);
             try {
-		System.out.println("Processing Request");
-                InputStream is = this.sock.getInputStream();
-		System.out.println("Don with socket input");
-                ObjectInputStream ois = new ObjectInputStream(is);
-		try {
-		    System.out.println("Reading Request");
-                    Request request = (Request)ois.readObject();
-                    if (request != null ){
-			
-                        if( request.getRequestType().equals(type)){
-			     System.out.println("Request type " + request.getRequestType());
-			     System.out.println("Number of tickets " + request.getNumTickets());
+                System.out.println("Reading Request");
+                Request request = (Request)ois.readObject();
+                System.out.println("Read request");
+                if (request != null ){
+                    if( request.getRequestType().equals(type)){
+                        System.out.println("Request type " + request.getRequestType());
+                        System.out.println("Number of tickets " + request.getNumTickets());
 
-                             Boolean sucessfull = buyTickets(request.getNumTickets());
-			     System.out.println("Buy tickets sucessfulll ? = " + sucessfull);
-                             request.setSucessfullyProcessed(sucessfull);
-			     System.out.println("Number of tickets left = " + ticketsLeft);
-			    
-                            				     
-                            if (request.getHasRedirected()){
-                                SendRequestTo(opposingServerIP,opposingServerPort,request);
-                            }else{
-				System.out.println("About to send request to original client");
-                                SendRequestTo(request.getOriginalIP(), request.getOriginalPort(), request);
-                            	System.out.println("Sent request to original client");
-			    }
-
-                        }else {
-                            if(request.getHasRedirected()){
-                                SendRequestTo(request.getOriginalIP(), request.getOriginalPort(), request);
-                            }else{
-                                request.setHasRedirected(true);
-                                SendRequestTo(opposingServerIP, opposingServerPort, request);
-                            }
-                            
+                        Boolean sucessfull = buyTickets(request.getNumTickets());
+                        System.out.println("Buy tickets sucessfulll ? = " + sucessfull);
+                        request.setSucessfullyProcessed(sucessfull);
+                        System.out.println("Number of tickets left = " + ticketsLeft);
+                    
+                                                    
+                        if (request.getHasRedirected()){
+                            SendRequestTo(opposingServerIP,opposingServerPort,request);
+                        }else{
+                            System.out.println("About to send request to original client");
+                            SendRequestTo(request.getOriginalIP(), request.getOriginalPort(), request);
+                            System.out.println("Sent request to original client");
                         }
 
+                    }else {
+                        if(request.getHasRedirected()){
+                            SendRequestTo(request.getOriginalIP(), request.getOriginalPort(), request);
+                        }else{
+                            request.setHasRedirected(true);
+                            SendRequestTo(opposingServerIP, opposingServerPort, request);
+                        }  
                     }
-                }catch (ClassNotFoundException cnfe){
-                    cnfe.printStackTrace();
-		}
-		System.out.println("Closing alll streams");
-                is.close();
-                sock.close();
+
+                }
+            }catch (ClassNotFoundException cnfe){
+                cnfe.printStackTrace();
+            }
+		    System.out.println("Closing alll streams");
+            is.close();
+            sock.close();
 	}catch (IOException err){
                 err.printStackTrace();
         }
