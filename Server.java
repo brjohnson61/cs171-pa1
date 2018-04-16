@@ -143,12 +143,13 @@ class Server{
                 Request request = (Request)ois.readObject();
                 //System.out.println("Read request");
                 if (request != null ){
+                    System.out.print("Request type: ");
+                    System.out.println(request.getRequestType());
                     if( request.getRequestType().equals(type)){
                         //System.out.println("Request type:");
                         //System.out.println(request.getRequestType());
                         //System.out.println("Number of tickets:");
                         //System.out.println(request.getNumTickets());
-
                         Boolean sucessfull = buyTickets(request.getNumTickets());
                         System.out.print("Buy tickets sucessfulll ");
                         System.out.println(sucessfull);
@@ -159,20 +160,21 @@ class Server{
                     
                                                     
                         if (request.getHasRedirected()){
-                            System.out.println("Forwarding request to opposing server");
+                            //System.out.println("Forwarding request to opposing server");
                             SendRequestTo(opposingServerIP,opposingServerPort,request);
                         }else{
-                            System.out.println("Forwarding request to original client");
+                            //System.out.println("Forwarding request to original client");
                             SendRequestTo(request.getOriginalIP(), request.getOriginalPort(), request);
                             //System.out.println("Sent request to original client");
                         }
 
                     }else {
+
                         if(request.getHasRedirected()){
-                            System.out.println("Forwarding opposing request to original client");
+                            //System.out.println("Forwarding opposing request to original client");
                             SendRequestTo(request.getOriginalIP(), request.getOriginalPort(), request);
                         }else{
-                            System.out.println("Forwarding opposing request to opposing server");
+                            //System.out.println("Forwarding opposing request to opposing server");
                             request.setHasRedirected(true);
                             SendRequestTo(opposingServerIP, opposingServerPort, request);
                         }  
