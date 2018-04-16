@@ -24,6 +24,8 @@ class Main{
             }
             else if(input.equals("P") || input.equals("p")){
                 System.out.println("Play Server");
+                Server movieServer = new Server(false);
+                movieServer.setupMovieServer();
             }
         }
         else{
