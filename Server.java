@@ -135,15 +135,15 @@ class Server{
         //     opposingType = "movie";
         // }
 
+        
+        System.out.println("Enter port number for server to listen on:");
+        this.PORT = input.nextInt();
+
         System.out.println("Enter IP address of other server");
         opposingServerIP = input.nextLine();
 
-
         System.out.println("Enter other server port number");
         opposingServerPort = input.nextInt();
-
-        System.out.println("Enter port number for server to listen on:");
-        this.PORT = input.nextInt();
 
         input.close();
 
