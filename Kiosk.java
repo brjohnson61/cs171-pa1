@@ -116,23 +116,11 @@ class Kiosk{
             receiveSocket.close();
             receiveServerSocket.close();
             System.out.println("received");
+            System.out.println("Tickets remaining:");
+            System.out.println(receivedRequest.getRemaining());
         }catch(Exception e){
             e.printStackTrace();
         }
     }
-
-    // public String getUserInputString(){
-    //     Scanner scanner = new Scanner(System.in);
-    //     String usrin = scanner.nextLine();
-    //     scanner.close();
-    //     return usrin;
-    // }
-
-    // public Integer getUserInputInt(){
-    //     Scanner scanner = new Scanner(System.in);
-    //     Integer usrin = scanner.nextInt();
-    //     scanner.close();
-    //     return usrin;
-    // }
 
 }

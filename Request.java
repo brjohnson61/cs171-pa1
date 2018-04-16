@@ -9,6 +9,7 @@ class Request implements Serializable {
     private Integer originPort;
     private Boolean hasRedirected;
     private Boolean sucessfullyProcessed;
+    private Integer remaining;
      
     public Request(Boolean type, Integer num){
         this.numTickets = num;
@@ -67,6 +68,13 @@ class Request implements Serializable {
         return sucessfullyProcessed;
     }
 
+    public void setRemaining(Integer remaining){
+        this.remaining = remaining;
+    }
+
+    public Integer getRemaining(){
+        return this.remaining;
+    }
 
 
 }

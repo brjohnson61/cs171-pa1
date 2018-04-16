@@ -154,7 +154,7 @@ class Server{
         try {
 		    System.out.println("Processing Request");
             InputStream is = this.sock.getInputStream();
-		    System.out.println("Don with socket input");
+		    System.out.println("Done with socket input");
             ObjectInputStream ois = new ObjectInputStream(is);
             try {
                 System.out.println("Reading Request");
@@ -168,6 +168,7 @@ class Server{
                         Boolean sucessfull = buyTickets(request.getNumTickets());
                         System.out.println("Buy tickets sucessfulll ? = " + sucessfull);
                         request.setSucessfullyProcessed(sucessfull);
+                        request.setRemaining(ticketsLeft);
                         System.out.println("Number of tickets left = " + ticketsLeft);
                     
                                                     
@@ -187,7 +188,6 @@ class Server{
                             SendRequestTo(opposingServerIP, opposingServerPort, request);
                         }  
                     }
-
                 }
             }catch (ClassNotFoundException cnfe){
                 cnfe.printStackTrace();
@@ -195,7 +195,7 @@ class Server{
 		    System.out.println("Closing alll streams");
             is.close();
             sock.close();
-	}catch (IOException err){
+	    }catch (IOException err){
                 err.printStackTrace();
         }
         System.out.println("Done reciving request");
