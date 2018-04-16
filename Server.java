@@ -129,17 +129,17 @@ class Server{
         //}
        	//System.out.println(myIp);
         String opposingType = "";
-        if (this.type.equals("movie")){
-            opposingType = "play";
-        }   else{
-            opposingType = "movie";
-        }
+        // if (this.type.equals("movie")){
+        //     opposingType = "play";
+        // }   else{
+        //     opposingType = "movie";
+        // }
 
-        System.out.println("Enter IP address of " + opposingType + " server");
+        System.out.println("Enter IP address of other server");
         opposingServerIP = input.nextLine();
 
 
-        System.out.println("Enter "+ opposingType + " server port number");
+        System.out.println("Enter other server port number");
         opposingServerPort = input.nextInt();
 
         System.out.println("Enter port number for server to listen on:");
