@@ -27,6 +27,7 @@ class Kiosk{
         
         System.out.println("Enter server port number:");
         movieServerPort = scan.nextInt();
+        playServerPort = movieServerPort;
 
 
         try {
