@@ -52,22 +52,16 @@ class Kiosk{
                 System.out.println("Enter 'movie' to purchase a movie ticket, or 'play' to purchase a play ticket:");
                 choice = scan.nextLine();
                
-                System.out.println("Enter the number of tickets you would like to purchase:");
-                numTickets = scan.nextInt();
-
-                // try{
-                // System.out.println("Enter 'movie' to purchase a movie ticket, or 'play' to purchase a play ticket:");
-                // choice = scan.nextLine();
                
-                // System.out.println("Enter the number of tickets you would like to purchase:");
-                // numTickets = scan.nextInt();
-                
-                
-                // }catch(Exception e){
-                //     e.printStackTrace();
-                // }
-                if((choice.equals("movie") || choice.equals("play")) && numTickets > 0){
-                    userInputSuccess = true;
+
+                if((choice.equals("movie") || choice.equals("play"))){
+                    System.out.println("Enter the number of tickets you would like to purchase:");
+                    numTickets = scan.nextInt();
+                    if( numTickets > 0){
+                        userInputSuccess = true;
+                    }else{
+                        userInputSuccess = false;
+                    }
                 }
                 else{
                     System.out.println("Please enter a valid input!");
