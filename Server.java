@@ -38,7 +38,7 @@ class Server{
                 return false;
             } else{
 		ticketsLeft = ticketsLeft - num;
-        System.out.print("Tickets left: ")
+        System.out.print("Tickets left: ");
 		System.out.println( ticketsLeft);
             	return true;
 	    }
