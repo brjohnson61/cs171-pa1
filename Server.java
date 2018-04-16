@@ -11,7 +11,7 @@ class Server{
     private int PORT;
     private ServerSocket serverSocket;
     private Socket sock;
-   
+    private static final Scanner input = new Scanner(System.in);
 
     
     public Server(Boolean type){
@@ -102,7 +102,6 @@ class Server{
     }
     
     public void setupMovieServer(){
-        Scanner input = new Scanner(System.in);
         
 
         URL whatismyip;
@@ -142,10 +141,6 @@ class Server{
 
         System.out.println("Enter IP address of other server");
         opposingServerIP = input.nextLine();
-
-        
-
-        input.close();
 
         ListenForRequest();
 
