@@ -11,6 +11,7 @@ class Server{
     private int PORT;
     private ServerSocket serverSocket;
     private Socket sock;
+   
 
     
     public Server(Boolean type){
@@ -127,15 +128,21 @@ class Server{
         //    err.printStackTrace();
         //}
        	//System.out.println(myIp);
+        String opposingType = "";
+        if (this.type.equals("movie")){
+            opposingType = "play";
+        }   else{
+            opposingType = "movie";
+        }
 
-        // System.out.println("Enter IP address of Play server");
-        // opposingServerIP = input.nextLine();
+        System.out.println("Enter IP address of " + opposingType + " server");
+        opposingServerIP = input.nextLine();
 
 
-        // System.out.println("Enter Play server port number");
-        // opposingServerPort = new Integer(input.nextLine());
+        System.out.println("Enter "+ opposingType + " server port number");
+        opposingServerPort = input.nextInt();
 
-        System.out.println("Enter Port number for server to listen on:");
+        System.out.println("Enter port number for server to listen on:");
         this.PORT = input.nextInt();
 
         input.close();
