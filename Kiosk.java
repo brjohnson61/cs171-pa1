@@ -94,7 +94,7 @@ class Kiosk{
     }
 
     public void sendRequest(Request request){
-        Integer rn = rand.nextInt();
+        Integer rn = rand.nextInt(1);
         try{
             try {
                 System.out.println("trying socket");
