@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
+import java.util.Random;
 
 class Kiosk{
     private String movieServerIP, playServerIP, thisIP;
@@ -12,6 +13,7 @@ class Kiosk{
     private ObjectOutputStream toServer;
     private ObjectInputStream fromServer;
     static final Scanner scan = new Scanner(System.in);
+    static final Random rand = new Random();
     
 
     public void setupKiosk(){
@@ -73,6 +75,7 @@ class Kiosk{
             
             Request request;
 
+
             if(choice.equals("movie")){
                 request = new Request(true, numTickets);
             }
@@ -91,11 +94,20 @@ class Kiosk{
     }
 
     public void sendRequest(Request request){
+        Integer rn = rand.nextInt();
         try{
             try {
                 System.out.println("trying socket");
-                movieSocket = new Socket(movieServerIP, movieServerPort);
-                //playSocket = new Socket(playServerIP, playServerPort);
+                System.out.print("Random integer is:");
+                System.out.println(rn);
+                if(rn == 1){
+                    movieSocket = new Socket(movieServerIP, movieServerPort);
+                    System.out.println("Sent to movie server");
+                }
+                else{
+                    playSocket = new Socket(playServerIP, playServerPort);
+                    System.out.println("Sent to play server");
+                }
                 System.out.println("Socket Working");
             }catch (UnknownHostException err){
                 System.out.println("Unknown Host exception");
@@ -104,7 +116,13 @@ class Kiosk{
                 err.printStackTrace();
                 System.out.println("IOException");
             }
-            OutputStream os = movieSocket.getOutputStream();
+            OutputStream os;
+            if(rn == 1){
+                os = movieSocket.getOutputStream();
+            }
+            else{
+                os = playSocket.getOutputStream();
+            }
             toServer = new ObjectOutputStream(os);
             toServer.writeObject(request);
             toServer.close();
