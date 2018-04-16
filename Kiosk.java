@@ -27,7 +27,7 @@ class Kiosk{
         try {
             InetAddress address = InetAddress.getLocalHost();
             thisIP = address.getHostAddress();
-            System.out.println("This machine's IP Address: " + thisIP);
+            System.out.println(thisIP);
         }catch(UnknownHostException ex){
             ex.printStackTrace();
         }
