@@ -19,8 +19,11 @@ class Kiosk{
 
         System.out.println("Enter Movie Server IP address:");
         movieServerIP = scan.nextLine();
+
+        System.out.println("Enter Play Server IP address:");
+        playServerIP = scan.nextLine();
         
-        System.out.println("Enter Movie Server port number:");
+        System.out.println("Enter server port number:");
         movieServerPort = scan.nextInt();
 
 
@@ -68,7 +71,14 @@ class Kiosk{
                 }
             }while(!userInputSuccess);
             
-            Request request = new Request(true, numTickets);
+            Request request;
+
+            if(choice.equals("movie")){
+                request = new Request(true, numTickets);
+            }
+            else{
+                request = new Request(false, numTickets);
+            }
             request.setHasRedirected(false);
             request.setSucessfullyProcessed(false);
             request.setOriginalIP(thisIP);
