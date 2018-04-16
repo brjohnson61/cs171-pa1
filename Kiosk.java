@@ -107,7 +107,7 @@ class Kiosk{
 
     public void responseFromServer(){
         try{
-            receiveServerSocket = new ServerSocket(4350);
+            receiveServerSocket = new ServerSocket(receivePort);
             receiveSocket = receiveServerSocket.accept();
             InputStream is = receiveSocket.getInputStream();
             fromServer = new ObjectInputStream(is);

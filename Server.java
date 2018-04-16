@@ -83,6 +83,7 @@ class Server{
             System.out.println("IP Address: " + ipAddress);
             System.out.println("Port Number: " + port);
             Socket s = new Socket(ipAddress, port);
+            System.out.println("Socket created");
             OutputStream os = s.getOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(os);
             oos.writeObject(request);
